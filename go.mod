@@ -1,4 +1,4 @@
-module loca
+module lorca_example
 
 go 1.14
 
