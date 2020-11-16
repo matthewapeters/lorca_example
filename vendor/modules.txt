@@ -1,0 +1,9 @@
+# git.kirsle.net/go/render v0.0.0-20200710023247-e5f4c3a16860
+## explicit
+# github.com/webview/webview v0.0.0-20200724072439-e0c01595b361
+## explicit
+# github.com/zserge/lorca v0.1.9
+## explicit
+github.com/zserge/lorca
+# golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
+golang.org/x/net/websocket
