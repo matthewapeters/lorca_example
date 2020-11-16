@@ -14,7 +14,7 @@ This example creates an application that illustrates:
 
 ## To Build ##  
 
-1. Make sure you have Chrome installed.  You _do_ have Chrome (or Chromium or Microsoft's Chrome variant)
+1. Make sure you have Chrome installed.  You _do_ have Chrome (or Chromium or Microsoft's Chrome variant), right?
 1. Download the repository
 1. run `$ go build ./...`
 1. run `$ ./lorca_example`
