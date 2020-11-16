@@ -21,3 +21,7 @@ This example creates an application that illustrates:
 
 
 ![](./docs/screencap.png)
+_Using HTML5 CSS, you can create multiple pages and toggle between them._
+
+One aspect of this solution that I am not fully a fan of is the amount of raw HTML and Javascript that is required to implement a basic application.  While embracing separation of concerns and MVC models are excellent objectives, it would be ideal to be able to be able to write an application in pure Go, and let Go libraries provide interfaces to HTML and Javascript through idiomatic Golang.
+
