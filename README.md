@@ -9,6 +9,7 @@ This example creates an application that illustrates:
 * HTML 5 `canvas` drawing  
 * Buttons and `lorca`'s function binding  
 * Golang event loop using `select` over multiple channels
+* Pushing content (the current time) from server-side asynchronous events.
 
 
 ## To Build ##  
@@ -17,3 +18,6 @@ This example creates an application that illustrates:
 1. Download the repository
 1. run `$ go build ./...`
 1. run `$ ./lorca_example`
+
+
+![](./docs/screencap.png)
