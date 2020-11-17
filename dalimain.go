@@ -15,11 +15,11 @@ import (
 	"github.com/zserge/lorca"
 )
 
-func changeTitle(ui lorca.UI, words string) {
+func changeTitleD(ui lorca.UI, words string) {
 	ui.Eval(fmt.Sprintf(`document.getElementById("heading").innerHTML="%s";`, words))
 }
 
-func drawALine(ui lorca.UI, x1, y1, x2, y2 float32) {
+func drawALineD(ui lorca.UI, x1, y1, x2, y2 float32) {
 	s := `
 var c = document.getElementById("whiteboard");
 var ctx = c.getContext("2d");
@@ -33,7 +33,7 @@ document.getElementById("coords").innerHTML=%s;
 
 }
 
-func drawAPicture(ui lorca.UI) {
+func drawAPictureD(ui lorca.UI) {
 	url := "http://cdn.dumpaday.com/wp-content/uploads/2020/06/00-57-750x280.jpg"
 	s := `
 var c = document.getElementById("whiteboard");
@@ -47,7 +47,7 @@ img.src="%s"
 	ui.Eval(fmt.Sprintf(s, url))
 }
 
-func main() {
+func mainD() {
 	// Define some application variables
 	clicks := 0
 	var x1, y1, x2, y2 float32
@@ -89,19 +89,33 @@ func main() {
 
 	*/
 	W := dali.NewWindow(700, 700, "", "")
+	Tabs := dali.NewPane("tabs")
+	Tabs.AddElement(dali.Button{ID: "showPageOne", ButtonText: "Page One"})
+	Tabs.AddElement(dali.Button{ID: "showPageTwo", ButtonText: "Page Two"})
+	W.AddPane(Tabs)
+	PageOne := dali.NewPane("pageOne")
+	PageOne.Style = "display:none;"
+	PageOne.AddElement(dali.Span{Text: "Page One", ID: "spanOne"})
+	W.AddPane(PageOne)
+	PageTwo := dali.NewPane("pageTwo")
+	PageTwo.Style = "display:none"
+	PageTwo.AddElement(dali.Span{Text: "Page Two", ID: "spanTwo"})
+	W.AddPane(PageTwo)
+
 	/*
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(1)
 		}
 	*/
+	W.Start()
 	// ui closes when the main method is exited
 	defer W.Close()
 
 	ui := W.GetUI()
 
 	//Bind the menu buttons to a function to display one div and hide the other
-	err = ui.Bind("showPageOne", func() {
+	err := ui.Bind("do_showPageOne", func() {
 		ui.Eval(`document.getElementById("pageOne").style.display="block";`)
 		ui.Eval(`document.getElementById("pageOne").style.visibility="visible";`)
 		ui.Eval(`document.getElementById("pageTwo").style.display="none";`)
@@ -112,7 +126,7 @@ func main() {
 		log.Fatalf("could not bind showPageOne %s", err)
 		os.Exit(2)
 	}
-	err = ui.Bind("showPageTwo", func() {
+	err = ui.Bind("do_showPageTwo", func() {
 		ui.Eval(`document.getElementById("pageTwo").style.display="block";`)
 		ui.Eval(`document.getElementById("pageTwo").style.visibility="visible";`)
 		ui.Eval(`document.getElementById("pageOne").style.display="none";`)
@@ -137,7 +151,7 @@ func main() {
 		rand.Seed(time.Now().UnixNano())
 		x2 = rand.Float32() * 600
 		y2 = rand.Float32() * 400
-		drawALine(ui, x1, y1, x2, y2)
+		drawALineD(ui, x1, y1, x2, y2)
 		// Next line will start where this line ends
 		x1 = x2
 		y1 = y2
@@ -148,7 +162,7 @@ func main() {
 	}
 
 	// Bind button3 to a function that will draw a picture on the whiteboard canvas
-	err = ui.Bind("doButtonThree", func() { drawAPicture(ui) })
+	err = ui.Bind("doButtonThree", func() { drawAPictureD(ui) })
 	if err != nil {
 		log.Fatalf("could not bind doButtonThree %s", err)
 		os.Exit(103)
@@ -161,7 +175,7 @@ func main() {
 		case buttonOne := <-buttonOneChannel:
 			if buttonOne {
 				clicks++
-				changeTitle(ui, fmt.Sprintf("Clicks: %d", clicks))
+				changeTitleD(ui, fmt.Sprintf("Clicks: %d", clicks))
 			}
 		// for example, we can get the time each second from our ticker
 		case currentTime := <-clock.C:
@@ -174,3 +188,5 @@ func main() {
 		}
 	}
 }
+
+func main() { mainD() }
