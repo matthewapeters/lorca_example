@@ -1,7 +1,6 @@
-# git.kirsle.net/go/render v0.0.0-20200710023247-e5f4c3a16860
+# github.com/matthewapeters/dali v0.0.0-20201117143821-2ff6e2d28cfa
 ## explicit
-# github.com/webview/webview v0.0.0-20200724072439-e0c01595b361
-## explicit
+github.com/matthewapeters/dali
 # github.com/zserge/lorca v0.1.9
 ## explicit
 github.com/zserge/lorca
