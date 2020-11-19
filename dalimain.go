@@ -184,6 +184,6 @@ func DaliExample() {
 }
 
 func main() {
-	//LorcaExample()
-	DaliExample()
+	LorcaExample()
+	//DaliExample()
 }
