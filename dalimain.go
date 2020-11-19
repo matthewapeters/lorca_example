@@ -110,10 +110,10 @@ func DaliExample() {
 
 	//Bind the menu buttons to a function to display one div and hide the other
 	err := ui.Bind("do_showPageOne", func() {
-		ui.Eval(`document.getElementById("pageOne").style.display="block";`)
-		ui.Eval(`document.getElementById("pageOne").style.visibility="visible";`)
-		ui.Eval(`document.getElementById("pageTwo").style.display="none";`)
-		ui.Eval(`document.getElementById("pageTwo").style.visibility="hidden";`)
+		ui.Eval(`document.getElementById("pageOne").style.display="block";
+		document.getElementById("pageOne").style.visibility="visible";
+		document.getElementById("pageTwo").style.display="none";
+		document.getElementById("pageTwo").style.visibility="hidden";`)
 
 	})
 	if err != nil {
@@ -121,10 +121,10 @@ func DaliExample() {
 		os.Exit(2)
 	}
 	err = ui.Bind("do_showPageTwo", func() {
-		ui.Eval(`document.getElementById("pageTwo").style.display="block";`)
-		ui.Eval(`document.getElementById("pageTwo").style.visibility="visible";`)
-		ui.Eval(`document.getElementById("pageOne").style.display="none";`)
-		ui.Eval(`document.getElementById("pageOne").style.visibility="hidden";`)
+		ui.Eval(`document.getElementById("pageTwo").style.display="block";
+		document.getElementById("pageTwo").style.visibility="visible";
+		document.getElementById("pageOne").style.display="none";
+		document.getElementById("pageOne").style.visibility="hidden";`)
 
 	})
 	if err != nil {
