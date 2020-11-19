@@ -68,7 +68,7 @@ func DaliExample() {
 	W.Elements.AddElement(head)
 
 	Tabs := dali.NewPane("tabs")
-	Tabs.StyleName = "width:600;"
+	Tabs.StyleName = "width:600;border:solid 1px #000000;position:relative;"
 	Tabs.Elements.AddElement(dali.Button{ID: "showPageOne", ButtonText: "Page One"})
 	Tabs.Elements.AddElement(dali.Button{ID: "showPageTwo", ButtonText: "Page Two"})
 	clockPane := dali.NewPane("clock")
@@ -185,5 +185,5 @@ func DaliExample() {
 
 func main() {
 	LorcaExample()
-	//DaliExample()
+	DaliExample()
 }
