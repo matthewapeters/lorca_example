@@ -47,56 +47,21 @@ img.src="%s"
 	ui.Eval(fmt.Sprintf(s, url))
 }
 
-func MainD() {
+//DaliExample is a Dali version of the example
+func DaliExample() {
 	// Define some application variables
 	clicks := 0
 	var x1, y1, x2, y2 float32
 	clock := time.NewTicker(time.Second)
 	buttonOneChannel := make(chan bool)
 
-	// Create UI with basic HTML passed via data URI
-	/*
-		ui, err := lorca.New("data:text/html,"+url.PathEscape(`
-		<html>
-			<head><title>Golang, Lorca, HTML5</title></head>
-			<script>
-			function initialDisplay(){
-				document.getElementById("pageOne").style.display="block";
-				document.getElementById("pageOne").style.visbility="visible";
-			}
-			</script>
-			<body onload="initialDisplay()">
-				<div id="tabs" style="border:1px solid #000088;width:600; position:relative">
-					<button onclick="showPageOne()">Page One</button>
-					<button onclick="showPageTwo()">Page Two</button>
-					<div id="clock" style="display:inline;width:300;position:absolute;right:1px;text-align:right">The Clock Says:</div>
-				</div>
-				<div id="pageOne" style="display:none">
-					<h1 id="heading" >Clicks: 0</h1><br/>
-					<div id="coords">You can draw a line if you want</div>
-					<canvas id="whiteboard" width="600" height="400" style="border:1px solid #000000;"></canvas><br/>
-					<br/>
-					<button id="button1" onclick="doButtonOne()" >I Count Clicks</button>
-					<button id="button2" onclick="doButtonTwo()" >Draw A Line</button>
-					<button id="button3" onclick="doButtonThree()" >Get A Surprise</button>
-				</div>
-				<div id="pageTwo" style="visibility:hidden;">
-				<h1>This is Page Two</h1>
-				</div>
-			</body>
-		</html>
-		`), "", 740, 700)
-
-	*/
 	W := dali.NewWindow(700, 700, "", "")
 	t := dali.TitleElement{Text: `Golang, Lorca, HTML5`}
 	scr := dali.ScriptElement{Text: `
 			function initialDisplay(){
 				document.getElementById("pageOne").style.display="block";
 				document.getElementById("pageOne").style.visbility="visible";
-			}
-			document.addEventListener("load", initialDisplay);
-			`}
+			}`}
 	head := dali.NewHeadElement()
 	head.Elements.AddElement(&t)
 	head.Elements.AddElement(&scr)
@@ -113,6 +78,7 @@ func MainD() {
 	Tabs.Elements.AddElement(clockPane)
 
 	body := dali.NewBodyElement()
+	body.OnLoad = "initialDisplay()"
 	body.Elements.AddElement(Tabs)
 	W.Elements.AddElement(body)
 	PageOne := dali.NewPane("pageOne")
@@ -217,4 +183,7 @@ func MainD() {
 	}
 }
 
-func main() { MainD() }
+func main() {
+	//LorcaExample()
+	DaliExample()
+}

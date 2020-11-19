@@ -47,7 +47,8 @@ img.src="%s"
 	ui.Eval(fmt.Sprintf(s, url))
 }
 
-func MainL() {
+//LorcaExample is the Lorca example
+func LorcaExample() {
 	// Define some application variables
 	clicks := 0
 	var x1, y1, x2, y2 float32

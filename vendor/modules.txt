@@ -1,4 +1,4 @@
-# github.com/matthewapeters/dali v0.0.0-20201119010505-f244f4a6efd8
+# github.com/matthewapeters/dali v0.0.0-20201119014724-5e23f6c9764a
 ## explicit
 github.com/matthewapeters/dali
 # github.com/zserge/lorca v0.1.9
