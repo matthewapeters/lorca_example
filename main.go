@@ -47,7 +47,7 @@ img.src="%s"
 	ui.Eval(fmt.Sprintf(s, url))
 }
 
-func mainL() {
+func MainL() {
 	// Define some application variables
 	clicks := 0
 	var x1, y1, x2, y2 float32

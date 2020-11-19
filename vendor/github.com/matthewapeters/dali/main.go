@@ -33,27 +33,35 @@ type Element interface {
 	Styles() Styles
 }
 
-//Elements is a map of Elements
-type Elements []Element
+//Elements is a slice of Elements
+type Elements struct {
+	slice []*Element
+}
 
 //String for Elements
-func (els Elements) String() string {
+func (els *Elements) String() string {
 	html := ""
-	for _, el := range els {
-		html = fmt.Sprintf(`%s%s`, html, el)
+	for _, el := range els.slice {
+		html = fmt.Sprintf(`%s%s`, html, *el)
 	}
 
 	return html
 }
 
+// AddElement appends an element to the slice of elements
+func (els *Elements) AddElement(e Element) {
+	newSlice := append(els.slice, &e)
+	els.slice = newSlice
+}
+
 // Window is the main application window
 type Window struct {
 	Width, Height int
-	Panes         *Panes
 	Style         StyleSheet
 	html          string
 	ui            lorca.UI
 	ProfileDir    string
+	Elements      *Elements
 	Args          []string
 }
 
@@ -73,24 +81,23 @@ func (style StyleSheet) String() string {
 // NewWindow creates a new Window
 func NewWindow(width, height int, profileDir string, styleSheet string, args ...string) *Window {
 
-	minimalTemplate := `<html>%s<body>%s</body></html>`
+	els := Elements{slice: []*Element{}}
 
 	w := Window{
 		Width:      width,
 		Height:     height,
-		html:       minimalTemplate,
 		Style:      StyleSheet{URL: styleSheet},
-		Panes:      &Panes{List: []*Pane{}},
 		ui:         nil,
 		Args:       args,
 		ProfileDir: profileDir,
+		Elements:   &els,
 	}
 	return &w
 }
 
 //String for Window
 func (w *Window) String() string {
-	return fmt.Sprintf(w.html, w.Style, w.Panes)
+	return fmt.Sprintf(`<html>%s</html>`, w.Elements)
 
 }
 
@@ -102,11 +109,6 @@ func (w *Window) Start() error {
 	}
 	w.ui = newui
 	return nil
-}
-
-//AddPane adds a Pane to the window
-func (w *Window) AddPane(p *Pane) {
-	w.Panes.List = append(w.Panes.List, p)
 }
 
 //Close wraps lorca.UI.Close()

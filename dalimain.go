@@ -47,7 +47,7 @@ img.src="%s"
 	ui.Eval(fmt.Sprintf(s, url))
 }
 
-func mainD() {
+func MainD() {
 	// Define some application variables
 	clicks := 0
 	var x1, y1, x2, y2 float32
@@ -89,25 +89,53 @@ func mainD() {
 
 	*/
 	W := dali.NewWindow(700, 700, "", "")
-	Tabs := dali.NewPane("tabs")
-	Tabs.AddElement(dali.Button{ID: "showPageOne", ButtonText: "Page One"})
-	Tabs.AddElement(dali.Button{ID: "showPageTwo", ButtonText: "Page Two"})
-	W.AddPane(Tabs)
-	PageOne := dali.NewPane("pageOne")
-	PageOne.Style = "display:none;"
-	PageOne.AddElement(dali.Span{Text: "Page One", ID: "spanOne"})
-	W.AddPane(PageOne)
-	PageTwo := dali.NewPane("pageTwo")
-	PageTwo.Style = "display:none"
-	PageTwo.AddElement(dali.Span{Text: "Page Two", ID: "spanTwo"})
-	W.AddPane(PageTwo)
+	t := dali.TitleElement{Text: `Golang, Lorca, HTML5`}
+	scr := dali.ScriptElement{Text: `
+			function initialDisplay(){
+				document.getElementById("pageOne").style.display="block";
+				document.getElementById("pageOne").style.visbility="visible";
+			}
+			document.addEventListener("load", initialDisplay);
+			`}
+	head := dali.NewHeadElement()
+	head.Elements.AddElement(&t)
+	head.Elements.AddElement(&scr)
+	W.Elements.AddElement(head)
 
-	/*
-		if err != nil {
-			log.Fatal(err)
-			os.Exit(1)
-		}
-	*/
+	Tabs := dali.NewPane("tabs")
+	Tabs.StyleName = "width:600;"
+	Tabs.Elements.AddElement(dali.Button{ID: "showPageOne", ButtonText: "Page One"})
+	Tabs.Elements.AddElement(dali.Button{ID: "showPageTwo", ButtonText: "Page Two"})
+	clockPane := dali.NewPane("clock")
+	clockPane.StyleName = `display:inline;width:300;position:absolute;right:1px;text-align:right`
+	clockText := dali.Text(`The Clock Says:`)
+	clockPane.Elements.AddElement(clockText)
+	Tabs.Elements.AddElement(clockPane)
+
+	body := dali.NewBodyElement()
+	body.Elements.AddElement(Tabs)
+	W.Elements.AddElement(body)
+	PageOne := dali.NewPane("pageOne")
+	PageOne.StyleName = "display:none;width:600;"
+	PageOne.Elements.AddElement(dali.NewHeader(dali.H1, "heading", "Clicks: 0"))
+	coords := dali.NewPane("coords")
+	coords.Elements.AddElement(dali.Text("You can draw a line if you want"))
+	PageOne.Elements.AddElement(coords)
+	canvas := dali.NewCanvas(600, 400, "whiteboard")
+	canvas.StyleName = "border:1px solid #000000;"
+	PageOne.Elements.AddElement(canvas)
+	PageOne.Elements.AddElement(dali.LineBreak())
+	PageOne.Elements.AddElement(dali.LineBreak())
+	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonOne", ButtonText: "I Count Clicks"})
+	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonTwo", ButtonText: "Draw A Line"})
+	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonThree", ButtonText: "Get A Surprise"})
+
+	body.Elements.AddElement(PageOne)
+	PageTwo := dali.NewPane("pageTwo")
+	PageTwo.StyleName = "display:none"
+	PageTwo.Elements.AddElement(dali.NewHeader(dali.H1, "", "Page Two"))
+	body.Elements.AddElement(PageTwo)
+
 	W.Start()
 	// ui closes when the main method is exited
 	defer W.Close()
@@ -139,14 +167,14 @@ func mainD() {
 	}
 
 	//Register button1 with an anonymous function which will emit a boolean on a channel
-	err = ui.Bind("doButtonOne", func() { buttonOneChannel <- true })
+	err = ui.Bind("do_ButtonOne", func() { buttonOneChannel <- true })
 	if err != nil {
 		log.Fatalf("could not bind doButtonOne %s", err)
 		os.Exit(101)
 	}
 
 	//Bind button2 to a function that will draw a random line
-	err = ui.Bind("doButtonTwo", func() {
+	err = ui.Bind("do_ButtonTwo", func() {
 		// Re-seed the random number generator to the current time, as of when the button is clicked.
 		rand.Seed(time.Now().UnixNano())
 		x2 = rand.Float32() * 600
@@ -162,7 +190,7 @@ func mainD() {
 	}
 
 	// Bind button3 to a function that will draw a picture on the whiteboard canvas
-	err = ui.Bind("doButtonThree", func() { drawAPictureD(ui) })
+	err = ui.Bind("do_ButtonThree", func() { drawAPictureD(ui) })
 	if err != nil {
 		log.Fatalf("could not bind doButtonThree %s", err)
 		os.Exit(103)
@@ -189,4 +217,4 @@ func mainD() {
 	}
 }
 
-func main() { mainD() }
+func main() { MainD() }

@@ -4,59 +4,37 @@ import "fmt"
 
 // Pane is a page within a Window
 type Pane struct {
-	Class    string
-	ID       string
-	Style    string
-	Elements Elements
-}
-
-// Panes is a map of Pane elements
-type Panes struct {
-	List []*Pane
-}
-
-// Add a Pane the list of Panes
-func (ps *Panes) Add(p *Pane) {
-	ps.List = append(ps.List, p)
+	ID        string
+	StyleName string
+	Elements  *Elements
+	Element
 }
 
 //String for Pane
 func (p *Pane) String() string {
-	class := ""
 	style := ""
-	if p.Class != "" {
-		class = fmt.Sprintf(` class="%s"`, p.Class)
-	}
-	if p.Style != "" {
-		style = fmt.Sprintf(` style="%s"`, p.Style)
+	if p.StyleName != "" {
+		style = fmt.Sprintf(` style="%s"`, p.StyleName)
 	}
 
-	return fmt.Sprintf(`<div id="%s"%s%s>%s</div>`, p.Name(), class, style, p.Elements)
-}
-
-//String for Panes
-func (ps *Panes) String() string {
-	html := ""
-	for _, p := range ps.List {
-		html = fmt.Sprintf(`%s%s`, p, html)
-	}
-	return html
-}
-
-//AddElement adds an element to a Pane
-func (p *Pane) AddElement(el Element) {
-	p.Elements = append(p.Elements, el)
+	return fmt.Sprintf(`<div id="%s"%s>%s</div>`, p.Name(), style, p.Elements)
 }
 
 // NewPane generates a new Pane
 func NewPane(name string) *Pane {
+	els := Elements{slice: []*Element{}}
 	return &Pane{
 		ID:       name,
-		Elements: Elements([]Element{}),
+		Elements: &els,
 	}
 }
 
 //Name returns the name of the Pane
 func (p *Pane) Name() string {
 	return p.ID
+}
+
+//Class of a pane is DIV
+func (p *Pane) Class() string {
+	return "DIV"
 }
