@@ -65,24 +65,24 @@ func DaliExample() {
 	head.Elements.AddElement(&scr)
 	W.Elements.AddElement(head)
 
-	Tabs := dali.NewPane("tabs")
+	Tabs := dali.NewDiv("tabs")
 	Tabs.StyleName = "width:600;border:solid 1px #000000;position:relative;"
 	Tabs.Elements.AddElement(dali.Button{ID: "showPageOne", ButtonText: "Page One"})
 	Tabs.Elements.AddElement(dali.Button{ID: "showPageTwo", ButtonText: "Page Two"})
-	clockPane := dali.NewPane("clock")
-	clockPane.StyleName = `display:inline;width:300;position:absolute;right:1px;text-align:right`
+	clockDiv := dali.NewDiv("clock")
+	clockDiv.StyleName = `display:inline;width:300;position:absolute;right:1px;text-align:right`
 	clockText := dali.Text(`The Clock Says:`)
-	clockPane.Elements.AddElement(clockText)
-	Tabs.Elements.AddElement(clockPane)
+	clockDiv.Elements.AddElement(clockText)
+	Tabs.Elements.AddElement(clockDiv)
 
 	body := dali.NewBodyElement()
 	body.OnLoad = "initialDisplay()"
 	body.Elements.AddElement(Tabs)
 	W.Elements.AddElement(body)
-	PageOne := dali.NewPane("pageOne")
+	PageOne := dali.NewDiv("pageOne")
 	PageOne.StyleName = "display:none;width:600;"
 	PageOne.Elements.AddElement(dali.NewHeader(dali.H1, "heading", "Clicks: 0"))
-	coords := dali.NewPane("coords")
+	coords := dali.NewDiv("coords")
 	coords.Elements.AddElement(dali.Text("You can draw a line if you want"))
 	PageOne.Elements.AddElement(coords)
 	canvas := dali.NewCanvas(600, 400, "whiteboard")
@@ -95,7 +95,7 @@ func DaliExample() {
 	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonThree", ButtonText: "Get A Surprise"})
 
 	body.Elements.AddElement(PageOne)
-	PageTwo := dali.NewPane("pageTwo")
+	PageTwo := dali.NewDiv("pageTwo")
 	PageTwo.StyleName = "display:none"
 	PageTwo.Elements.AddElement(dali.NewHeader(dali.H1, "", "Page Two"))
 	body.Elements.AddElement(PageTwo)
