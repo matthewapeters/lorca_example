@@ -6,9 +6,7 @@ Copyright (c) 2020 Matthew Peters
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/matthewapeters/dali"
@@ -102,65 +100,44 @@ func DaliExample() {
 	PageTwo.Elements.AddElement(dali.NewHeader(dali.H1, "", "Page Two"))
 	body.Elements.AddElement(PageTwo)
 
-	W.Start()
-	// ui closes when the main method is exited
-	defer W.Close()
-
-	ui := W.GetUI()
-
 	//Bind the menu buttons to a function to display one div and hide the other
-	err := ui.Bind("do_showPageOne", func() {
-		ui.Eval(`document.getElementById("pageOne").style.display="block";
+	W.Bind("do_showPageOne", func() {
+		W.GetUI().Eval(`document.getElementById("pageOne").style.display="block";
 		document.getElementById("pageOne").style.visibility="visible";
 		document.getElementById("pageTwo").style.display="none";
 		document.getElementById("pageTwo").style.visibility="hidden";`)
 
 	})
-	if err != nil {
-		log.Fatalf("could not bind showPageOne %s", err)
-		os.Exit(2)
-	}
-	err = ui.Bind("do_showPageTwo", func() {
-		ui.Eval(`document.getElementById("pageTwo").style.display="block";
+
+	W.Bind("do_showPageTwo", func() {
+		W.GetUI().Eval(`document.getElementById("pageTwo").style.display="block";
 		document.getElementById("pageTwo").style.visibility="visible";
 		document.getElementById("pageOne").style.display="none";
 		document.getElementById("pageOne").style.visibility="hidden";`)
 
 	})
-	if err != nil {
-		log.Fatalf("could not bind showPageTwo %s", err)
-		os.Exit(3)
-	}
 
 	//Register button1 with an anonymous function which will emit a boolean on a channel
-	err = ui.Bind("do_ButtonOne", func() { buttonOneChannel <- true })
-	if err != nil {
-		log.Fatalf("could not bind doButtonOne %s", err)
-		os.Exit(101)
-	}
+	W.Bind("do_ButtonOne", func() { buttonOneChannel <- true })
 
 	//Bind button2 to a function that will draw a random line
-	err = ui.Bind("do_ButtonTwo", func() {
+	W.Bind("do_ButtonTwo", func() {
 		// Re-seed the random number generator to the current time, as of when the button is clicked.
 		rand.Seed(time.Now().UnixNano())
 		x2 = rand.Float32() * 600
 		y2 = rand.Float32() * 400
-		drawALineD(ui, x1, y1, x2, y2)
+		drawALineD(W.GetUI(), x1, y1, x2, y2)
 		// Next line will start where this line ends
 		x1 = x2
 		y1 = y2
 	})
-	if err != nil {
-		log.Fatalf("could not bind doButtonTwo %s", err)
-		os.Exit(102)
-	}
 
 	// Bind button3 to a function that will draw a picture on the whiteboard canvas
-	err = ui.Bind("do_ButtonThree", func() { drawAPictureD(ui) })
-	if err != nil {
-		log.Fatalf("could not bind doButtonThree %s", err)
-		os.Exit(103)
-	}
+	W.Bind("do_ButtonThree", func() { drawAPictureD(W.GetUI()) })
+
+	W.Start()
+	// ui closes when the main method is exited
+	defer W.Close()
 
 	// Begin an event loop
 	for {
@@ -169,14 +146,14 @@ func DaliExample() {
 		case buttonOne := <-buttonOneChannel:
 			if buttonOne {
 				clicks++
-				changeTitleD(ui, fmt.Sprintf("Clicks: %d", clicks))
+				changeTitleD(W.GetUI(), fmt.Sprintf("Clicks: %d", clicks))
 			}
 		// for example, we can get the time each second from our ticker
 		case currentTime := <-clock.C:
 			ct := currentTime.Format(time.RFC1123)
-			ui.Eval(fmt.Sprintf(`document.getElementById("clock").innerHTML="%s";`, ct))
+			W.GetUI().Eval(fmt.Sprintf(`document.getElementById("clock").innerHTML="%s";`, ct))
 		// User closed the window.
-		case <-ui.Done():
+		case <-W.GetUI().Done():
 			// This is where we would implement clean shutdown routines
 			return
 		}

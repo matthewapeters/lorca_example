@@ -22,6 +22,8 @@ github.com/matthewapeters/dali v0.0.0-20201119010505-f244f4a6efd8 h1:mFnVQkSB4KI
 github.com/matthewapeters/dali v0.0.0-20201119010505-f244f4a6efd8/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
 github.com/matthewapeters/dali v0.0.0-20201119014724-5e23f6c9764a h1:Zmc8Y57hts/86LiDxWQo6+8FI4Lz+8xHPzxb5mt1Law=
 github.com/matthewapeters/dali v0.0.0-20201119014724-5e23f6c9764a/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
+github.com/matthewapeters/dali v0.0.0-20201121152206-2c3e0dd3dcf2 h1:NCCj4IbRfj88FFl8Le2iY1ijzArpnvzVTDW+FYrxh8A=
+github.com/matthewapeters/dali v0.0.0-20201121152206-2c3e0dd3dcf2/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
 github.com/zserge/lorca v0.1.9 h1:vbDdkqdp2/rmeg8GlyCewY2X8Z+b0s7BqWyIQL/gakc=
 github.com/zserge/lorca v0.1.9/go.mod h1:bVmnIbIRlOcoV285KIRSe4bUABKi7R7384Ycuum6e4A=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
