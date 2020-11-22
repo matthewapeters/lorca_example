@@ -9,6 +9,12 @@ type HeadElement struct {
 	Element
 }
 
+// Bindings returns nil
+func (h *HeadElement) Bindings() *Binding { return nil }
+
+//Children returns the Elements
+func (h *HeadElement) Children() *Elements { return h.Elements }
+
 //String for Head
 func (h *HeadElement) String() string {
 	return fmt.Sprintf(`<head>%s</head>`, h.Elements)
@@ -40,6 +46,9 @@ type ScriptElement struct {
 	Element
 }
 
+// Bindings returns nil
+func (scr *ScriptElement) Bindings() *Binding { return nil }
+
 func (scr *ScriptElement) String() string {
 	src := ""
 	if scr.URL != "" {
@@ -51,6 +60,9 @@ func (scr *ScriptElement) String() string {
 	}
 	return fmt.Sprintf(`<script%s%s>%s</script>`, src, name, scr.Text)
 }
+
+//Children returns an empty Elements
+func (scr *ScriptElement) Children() *Elements { return &Elements{slice: []*Element{}} }
 
 //Class of script
 func (scr *ScriptElement) Class() string { return "script" }
@@ -66,6 +78,12 @@ type TitleElement struct {
 	Text string
 	Element
 }
+
+//Bindings returns nil
+func (t *TitleElement) Bindings() *Binding { return nil }
+
+//Children will return an empty Elements
+func (t *TitleElement) Children() *Elements { return &Elements{slice: []*Element{}} }
 
 //String stringer for Title
 func (t *TitleElement) String() string {
@@ -84,20 +102,34 @@ func (t *TitleElement) Style() string { return "" }
 //BodyElement for holding the body of the page
 type BodyElement struct {
 	Elements *Elements
-	OnLoad   string
 	Element
+	Binding *Binding
 }
 
 func (b *BodyElement) String() string {
 	onLoad := ""
-	if b.OnLoad != "" {
-		onLoad = fmt.Sprintf(` onload="%s"`, b.OnLoad)
+	if b.Binding != nil {
+		onLoad = fmt.Sprintf(` onload="%s()"`, b.Binding.FunctionName)
 	}
 	return fmt.Sprintf(`<body%s>%s</body>`, onLoad, b.Elements)
 }
 
+//Children return the Elements
+func (b *BodyElement) Children() *Elements { return b.Elements }
+
+// Bindings returns the Binding
+func (b *BodyElement) Bindings() *Binding { return b.Binding }
+
 //NewBodyElement creates a body element
-func NewBodyElement() *BodyElement {
+func NewBodyElement(onLoad string) *BodyElement {
 	els := Elements{slice: []*Element{}}
-	return &BodyElement{Elements: &els}
+	var binding *Binding
+	if onLoad != "" {
+		binding = &Binding{FunctionName: onLoad}
+	}
+
+	return &BodyElement{
+		Elements: &els,
+		Binding:  binding,
+	}
 }

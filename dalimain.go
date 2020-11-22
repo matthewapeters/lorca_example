@@ -67,16 +67,33 @@ func DaliExample() {
 
 	Tabs := dali.NewDiv("tabs")
 	Tabs.StyleName = "width:600;border:solid 1px #000000;position:relative;"
-	Tabs.Elements.AddElement(dali.Button{ID: "showPageOne", ButtonText: "Page One"})
-	Tabs.Elements.AddElement(dali.Button{ID: "showPageTwo", ButtonText: "Page Two"})
+	pOneButton := dali.NewButton("Page One", "PageOne", "showPageOne")
+
+	//Bind the menu buttons to a function to display one div and hide the other
+	pOneButton.Binding.BoundFunction = func() {
+		W.GetUI().Eval(`document.getElementById("pageOne").style.display="block";
+		document.getElementById("pageOne").style.visibility="visible";
+		document.getElementById("pageTwo").style.display="none";
+		document.getElementById("pageTwo").style.visibility="hidden";`)
+	}
+	Tabs.Elements.AddElement(pOneButton)
+
+	pTwoButton := dali.NewButton("Page Two", "PageTwo", "showPageTwo")
+	pTwoButton.Binding.BoundFunction = func() {
+		W.GetUI().Eval(`document.getElementById("pageTwo").style.display="block";
+		document.getElementById("pageTwo").style.visibility="visible";
+		document.getElementById("pageOne").style.display="none";
+		document.getElementById("pageOne").style.visibility="hidden";`)
+	}
+	Tabs.Elements.AddElement(pTwoButton)
+
 	clockDiv := dali.NewDiv("clock")
 	clockDiv.StyleName = `display:inline;width:300;position:absolute;right:1px;text-align:right`
 	clockText := dali.Text(`The Clock Says:`)
 	clockDiv.Elements.AddElement(clockText)
 	Tabs.Elements.AddElement(clockDiv)
 
-	body := dali.NewBodyElement()
-	body.OnLoad = "initialDisplay()"
+	body := dali.NewBodyElement("initialDisplay")
 	body.Elements.AddElement(Tabs)
 	W.Elements.AddElement(body)
 	PageOne := dali.NewDiv("pageOne")
@@ -90,38 +107,15 @@ func DaliExample() {
 	PageOne.Elements.AddElement(canvas)
 	PageOne.Elements.AddElement(dali.LineBreak())
 	PageOne.Elements.AddElement(dali.LineBreak())
-	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonOne", ButtonText: "I Count Clicks"})
-	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonTwo", ButtonText: "Draw A Line"})
-	PageOne.Elements.AddElement(&dali.Button{ID: "ButtonThree", ButtonText: "Get A Surprise"})
 
-	body.Elements.AddElement(PageOne)
-	PageTwo := dali.NewDiv("pageTwo")
-	PageTwo.StyleName = "display:none"
-	PageTwo.Elements.AddElement(dali.NewHeader(dali.H1, "", "Page Two"))
-	body.Elements.AddElement(PageTwo)
+	//Register button1 with server-side function which will emit a boolean on a channel
+	buttonOne := dali.NewButton("I Count Clicks", "ButtonOne", "do_ButtonOne")
+	buttonOne.Binding.BoundFunction = func() { buttonOneChannel <- true }
+	PageOne.Elements.AddElement(buttonOne)
 
-	//Bind the menu buttons to a function to display one div and hide the other
-	W.Bind("do_showPageOne", func() {
-		W.GetUI().Eval(`document.getElementById("pageOne").style.display="block";
-		document.getElementById("pageOne").style.visibility="visible";
-		document.getElementById("pageTwo").style.display="none";
-		document.getElementById("pageTwo").style.visibility="hidden";`)
-
-	})
-
-	W.Bind("do_showPageTwo", func() {
-		W.GetUI().Eval(`document.getElementById("pageTwo").style.display="block";
-		document.getElementById("pageTwo").style.visibility="visible";
-		document.getElementById("pageOne").style.display="none";
-		document.getElementById("pageOne").style.visibility="hidden";`)
-
-	})
-
-	//Register button1 with an anonymous function which will emit a boolean on a channel
-	W.Bind("do_ButtonOne", func() { buttonOneChannel <- true })
-
-	//Bind button2 to a function that will draw a random line
-	W.Bind("do_ButtonTwo", func() {
+	buttonTwo := dali.NewButton("Draw A Line", "ButtonTwo", "do_ButtonTwo")
+	//Bind button2 to a function that will generate coordinates for draw a random line server side and then draw client-side
+	buttonTwo.Binding.BoundFunction = func() {
 		// Re-seed the random number generator to the current time, as of when the button is clicked.
 		rand.Seed(time.Now().UnixNano())
 		x2 = rand.Float32() * 600
@@ -130,10 +124,20 @@ func DaliExample() {
 		// Next line will start where this line ends
 		x1 = x2
 		y1 = y2
-	})
+	}
+	PageOne.Elements.AddElement(buttonTwo)
 
+	buttonThree := dali.NewButton("Get A Surprise", "ButtonThree", "do_ButtonThree")
 	// Bind button3 to a function that will draw a picture on the whiteboard canvas
-	W.Bind("do_ButtonThree", func() { drawAPictureD(W.GetUI()) })
+	buttonThree.Binding.BoundFunction = func() { drawAPictureD(W.GetUI()) }
+
+	PageOne.Elements.AddElement(buttonThree)
+
+	body.Elements.AddElement(PageOne)
+	PageTwo := dali.NewDiv("pageTwo")
+	PageTwo.StyleName = "display:none"
+	PageTwo.Elements.AddElement(dali.NewHeader(dali.H1, "", "Page Two"))
+	body.Elements.AddElement(PageTwo)
 
 	W.Start()
 	// ui closes when the main method is exited

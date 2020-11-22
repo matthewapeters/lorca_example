@@ -26,6 +26,16 @@ github.com/matthewapeters/dali v0.0.0-20201121152206-2c3e0dd3dcf2 h1:NCCj4IbRfj8
 github.com/matthewapeters/dali v0.0.0-20201121152206-2c3e0dd3dcf2/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
 github.com/matthewapeters/dali v0.0.0-20201121230555-5fe559005c74 h1:nrcQLqTJLN/Xup3X2AI6w1KFVrA0XvWv1U3g9OoR1Y8=
 github.com/matthewapeters/dali v0.0.0-20201121230555-5fe559005c74/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
+github.com/matthewapeters/dali v0.0.0-20201122181404-9cb8e3797ea2 h1:t8FiYfiN+Kz2GuCE7Unllj0xTtKh95BHX2gZAw+082o=
+github.com/matthewapeters/dali v0.0.0-20201122181404-9cb8e3797ea2/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
+github.com/matthewapeters/dali v0.0.0-20201122184248-27e003aa1198 h1:dXR3edTeIihDVBsER625onxoMQAw+TAS6Ki5MVidzbM=
+github.com/matthewapeters/dali v0.0.0-20201122184248-27e003aa1198/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
+github.com/matthewapeters/dali v0.0.0-20201122184811-9bd83c89f565 h1:qS6YNlGWoqzM82eOGgqHhXZ86nzLhgBCL9UcBNgmDr0=
+github.com/matthewapeters/dali v0.0.0-20201122184811-9bd83c89f565/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
+github.com/matthewapeters/dali v0.0.0-20201122185221-79cedf014ba6 h1:fH1eQVWxsJ78hdbU1LhyUGbKiOWYKel2YLh1FG3Zwlo=
+github.com/matthewapeters/dali v0.0.0-20201122185221-79cedf014ba6/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
+github.com/matthewapeters/dali v0.0.0-20201122185525-06ce0f280045 h1:t0JsQUMRxt+Iuk1qjLprKtH8O2rV6M5FI0+ktOKCc6A=
+github.com/matthewapeters/dali v0.0.0-20201122185525-06ce0f280045/go.mod h1:09wvCTDICeJohhQ33Slh8y/Ulk1JUVlSLmMfAzgIzqA=
 github.com/zserge/lorca v0.1.9 h1:vbDdkqdp2/rmeg8GlyCewY2X8Z+b0s7BqWyIQL/gakc=
 github.com/zserge/lorca v0.1.9/go.mod h1:bVmnIbIRlOcoV285KIRSe4bUABKi7R7384Ycuum6e4A=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
